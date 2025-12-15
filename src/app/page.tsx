@@ -1,6 +1,21 @@
-import Link from 'next/link'
+// src/app/page.tsx
+import Link from 'next/link';
+import { createServerSupabase } from '@/lib/supabase/server';
 
-export default function Page() {
+export default async function Page() {
+  // Create server-side Supabase client
+  const supabase = createServerSupabase();
+
+  // Fetch prompts for the logged-in user
+  const { data: prompts, error } = await supabase
+    .from('prompts')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching prompts:', error.message);
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900">
       {/* Hero Section */}
@@ -16,7 +31,6 @@ export default function Page() {
             Track every change. Test every version. Ship with confidence.
             The prompt management platform built for AI teams.
           </p>
-          
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
             <Link
               href="/signup"
@@ -33,56 +47,20 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Features */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-20">
-          <div className="bg-gradient-to-br from-cyan-900/40 to-blue-900/40 backdrop-blur-lg rounded-xl p-8 border border-cyan-500/30 hover:border-cyan-400 transition">
-            <div className="text-5xl mb-4">🔄</div>
-            <h3 className="text-xl font-semibold text-white mb-3">Version Control</h3>
-            <p className="text-gray-400">
-              Git-like versioning for every prompt. See diffs, track changes, rollback instantly.
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-lg rounded-xl p-8 border border-blue-500/30 hover:border-blue-400 transition">
-            <div className="text-5xl mb-4">🧪</div>
-            <h3 className="text-xl font-semibold text-white mb-3">Side-by-Side Testing</h3>
-            <p className="text-gray-400">
-              Compare outputs across versions and models. Know what's better before you ship.
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 backdrop-blur-lg rounded-xl p-8 border border-indigo-500/30 hover:border-indigo-400 transition">
-            <div className="text-5xl mb-4">👥</div>
-            <h3 className="text-xl font-semibold text-white mb-3">Team Collaboration</h3>
-            <p className="text-gray-400">
-              Share prompts, review changes, and manage access—all in one place.
-            </p>
-          </div>
-        </div>
-
-        {/* Problem Statement */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-12 mb-20 border border-white/20 max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">
-            Managing prompts shouldn't be this hard
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="flex items-start space-x-3">
-              <span className="text-red-400 text-2xl flex-shrink-0">✗</span>
-              <p className="text-gray-300">Prompts scattered across Notion, code, and Slack</p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <span className="text-red-400 text-2xl flex-shrink-0">✗</span>
-              <p className="text-gray-300">No idea which version actually works best</p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <span className="text-red-400 text-2xl flex-shrink-0">✗</span>
-              <p className="text-gray-300">Breaking changes with no way to roll back</p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <span className="text-red-400 text-2xl flex-shrink-0">✗</span>
-              <p className="text-gray-300">Manual testing is slow and inconsistent</p>
-            </div>
-          </div>
+        {/* User Prompts List */}
+        <div className="max-w-3xl mx-auto mb-20">
+          <h2 className="text-3xl font-bold text-white mb-6">Your Prompts</h2>
+          {prompts && prompts.length > 0 ? (
+            <ul className="list-disc pl-5 text-gray-200">
+              {prompts.map((prompt) => (
+                <li key={prompt.id} className="mb-2">
+                  <strong>{prompt.title}</strong>: {prompt.content}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-400">You haven’t created any prompts yet.</p>
+          )}
         </div>
 
         {/* CTA */}
@@ -109,5 +87,5 @@ export default function Page() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
