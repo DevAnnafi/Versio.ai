@@ -1,8 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
+import type { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {
+  // Add any config options here if needed
 }
 
-module.exports = nextConfig
+export default nextConfig
