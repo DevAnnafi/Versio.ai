@@ -336,7 +336,7 @@ Special thanks to the #buildinpublic community for support and feedback.
 
 **⭐ If you find this useful, please give it a star!**
 
-Made with ☕ and ❤️ by [Your Name](https://twitter.com/DevAnnafi)
+Made with ☕ and ❤️ by [Annafi Islam](https://twitter.com/DevAnnafi)
 
 ---
 
