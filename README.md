@@ -3,7 +3,6 @@
 > Version control for AI prompts. Finally.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Twitter Follow](https://img.shields.io/twitter/follow/DevAnnafi?style=social)](https://twitter.com/DevAnnafi)
 
 [Live Demo](https://versio.ai) • [Documentation](#documentation) • [Discord Community](#support)
 
